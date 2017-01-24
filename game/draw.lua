@@ -65,3 +65,32 @@ if currentos == "Windows" then -- This sets an outline so i can see the bounds o
 		love.graphics.rectangle("line", 0, 0, 320, 240)
 	end
 end
+
+function boxhilight()
+	love.graphics.setColor(45, 69, 34, 255) -- Get some green
+
+ if selectedicon < 1 then
+ 	selectedicon = 1 --Overflow control
+ end
+if selectedicon > 6 and selectedicon ~=9 then 
+	selectedicon = 6
+	--next/prev page code here
+end
+
+ 	--Thisassigns the selected icon a frame
+	if selectedicon == 1 then
+		drawrectangle("line", 35, 40, 70, 70)
+	elseif selectedicon == 2 then
+		drawrectangle("line", 125, 40, 70, 70)
+	elseif selectedicon == 3 then
+		drawrectangle("line", 215, 40, 70, 70)
+	elseif selectedicon == 4 then
+		drawrectangle("line", 35, 130, 70, 70)
+	elseif selectedicon == 5 then
+		drawrectangle("line", 125, 130, 70, 70)
+	elseif selectedicon == 6 then
+		drawrectangle("line", 215, 130, 70, 70)
+	elseif selectedicon == 9 then
+		drawrectangle("line", 70, 213, 180, 20)
+	end
+end

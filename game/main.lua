@@ -9,6 +9,7 @@ bgc.b = 255
 bgc.a = 255
 icons = {}
 fonts = {}
+selectedicon = 1
 
 
 function love.load()
@@ -44,15 +45,7 @@ function love.draw()
 	--Draw a window outline so that a windows user can see the outline of the window
 	drawwindowsoutline()
 	--Green boxes to indicate icon and text position *placeholder*
-	love.graphics.setColor(45, 69, 34, 255) -- Get some green
-
-	drawrectangle("line", 35, 40, 70, 70)
-	drawrectangle("line", 125, 40, 70, 70)
-	drawrectangle("line", 215, 40, 70, 70)
-	drawrectangle("line", 35, 130, 70, 70)
-	drawrectangle("line", 125, 130, 70, 70)
-	drawrectangle("line", 215, 130, 70, 70)
-	drawrectangle("line", 70, 213, 180, 20)
+	boxhilight()
 
 	rendericons()
 
@@ -60,6 +53,39 @@ function love.draw()
 end
 
 function love.update()
+
+end
+
+function love.keypressed(key)
+
+	-- If the start button is pressed, we return to the Homebrew Launcher
+	if key == 'start' then
+		love.event.quit()
+	end
+-- If the start button is pressed, we return to the Homebrew Launcher
+	if key == 'left' and selectedicon ~= 9 then
+		selectedicon = selectedicon-1
+	end
+
+	if key == 'right' and selectedicon ~= 9 then
+		selectedicon = selectedicon+1
+	end
+
+	if key == 'down' then
+		if selectedicon > 3 then
+			selectedicon = 9
+		else
+			selectedicon = selectedicon + 3
+		end
+	end
+	if key == 'up' then
+		if selectedicon == 9 then
+			selectedicon = 5
+		else
+			selectedicon = selectedicon - 3
+		end
+	end
+
 
 end
 
