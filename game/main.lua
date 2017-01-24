@@ -20,6 +20,7 @@ function love.load()
 	drawtoBottomScreen()
 	love.graphics.setBackgroundColor(bgc.r, bgc.g, bgc.b, bgc.a)
 
+	toast = love.graphics.newImage("image.png")
 end
 
 
@@ -75,18 +76,19 @@ function love.draw()
 	drawrectangle("line", 35, 130, 70, 70)
 	drawrectangle("line", 125, 130, 70, 70)
 	drawrectangle("line", 215, 130, 70, 70)
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(toast,45,69)
 
 	--Text of app icons
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.setFont(smallfont)
 
-	
-	love.graphics.printf("A B C D", 125, 95, 70, "center")
 	love.graphics.printf("Calendar", 35, 95, 70, "center")
-	love.graphics.printf("Adress", 215, 95, 70, "center")
-	love.graphics.printf("Todo List", 35, 190, 70, "center")
-	love.graphics.printf("Scrib", 125, 190, 70, "center")
-	love.graphics.printf("Browse", 215, 190, 70, "center")
+	love.graphics.printf("Day Planner", 125, 95, 70, "center")
+	love.graphics.printf("Address", 215, 95, 70, "center")
+	love.graphics.printf("Todo List", 35, 185, 70, "center")
+	love.graphics.printf("Scribble Pad", 125, 185, 70, "center")
+	love.graphics.printf("Browse", 215, 185, 70, "center")
 
 
 end
