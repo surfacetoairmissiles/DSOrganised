@@ -3,8 +3,11 @@ smallfont = love.graphics.newFont(9)
 
 user = "Sam"
 currentos = love.system.getOS()
-
-
+bgc = {}
+bgc.r = 255
+bgc.g = 255
+bgc.b = 255
+bgc.a = 255
 
 function love.load()
 	if currentos == "Windows" then
@@ -13,9 +16,9 @@ function love.load()
 		love.graphics.translate((400 - 320) / 2, 240)
 	end
 	drawtoTopScreen()
-	love.graphics.setBackgroundColor(255, 255, 255, 255)
+	love.graphics.setBackgroundColor(bgc.r, bgc.g, bgc.b, bgc.a)
 	drawtoBottomScreen()
-	love.graphics.setBackgroundColor(255, 255, 255, 255)
+	love.graphics.setBackgroundColor(bgc.r, bgc.g, bgc.b, bgc.a)
 
 end
 
@@ -114,7 +117,7 @@ function drawrectangle(l, x, y, w, h)
 		if l == "line" then
 			r, g, b, a = love.graphics.getColor()
 			linewidth = love.graphics.getLineWidth()
-			love.graphics.setColor(love.graphics.getBackgroundColor())
+			love.graphics.setColor(bgc.r, bgc.g, bgc.b, bgc.a)
 			love.graphics.rectangle("fill", x+linewidth, y+linewidth, w-(2*linewidth), h-(2*linewidth) )
 			love.graphics.setColor(r, g, b, a)
 		end
