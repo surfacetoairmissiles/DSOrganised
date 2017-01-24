@@ -25,16 +25,16 @@ function love.draw()
 	drawtoTopScreen()
 	--Start Drawing the boxes--
 	love.graphics.setColor(190,190,190,255)
-	love.graphics.rectangle("fill", 0, 0, 400, 40)-- 1st grey box
+	drawrectangle("fill", 0, 0, 400, 40)-- 1st grey box
 	love.graphics.setColor(0,0,0,255)
-	love.graphics.rectangle("fill",0, 40, 400, 5) --1st black bar
-	love.graphics.rectangle("line", 5, 60, 301, 20) --Reminders box
-	love.graphics.rectangle("line", 316, 60, 75, 150) -- Placeholder box
-	love.graphics.rectangle("line", 5, 95, 301, 50) -- Day planner
-	love.graphics.rectangle("line", 5, 160, 301, 50) --Todo
-	love.graphics.rectangle("fill",0, 215, 400, 5) --2nd black bar
+	drawrectangle("fill",0, 40, 400, 5) --1st black bar
+	drawrectangle("line", 5, 60, 301, 20) --Reminders box
+	drawrectangle("line", 316, 60, 75, 150) -- Placeholder box
+	drawrectangle("line", 5, 95, 301, 50) -- Day planner
+	drawrectangle("line", 5, 160, 301, 50) --Todo
+	drawrectangle("fill",0, 215, 400, 5) --2nd black bar
 	love.graphics.setColor(190,190,190,255)
-	love.graphics.rectangle("fill", 0, 220, 400, 20)-- 2nd grey box
+	drawrectangle("fill", 0, 220, 400, 20)-- 2nd grey box
 
 	--Draw the text--
 
@@ -59,22 +59,27 @@ function love.draw()
 
 	--Draw stuff on the bottom screen
 	drawtoBottomScreen()
-
+	
+	if currentos == "Windows" then -- This sets an outline so i can see the bounds of the screen
+		love.graphics.setColor(0,0,0,255)
+		love.graphics.rectangle("line", 0, 0, 320, 240)
+	end
 	--Green boxes to indicate icon and text position *placeholder*
 	love.graphics.setColor(45, 69, 34, 255) -- Get some green
-	love.graphics.rectangle("line", 35, 40, 70, 70)
-	love.graphics.rectangle("line", 125, 40, 70, 70)
-	love.graphics.rectangle("line", 215, 40, 70, 70)
-	love.graphics.rectangle("line", 35, 130, 70, 70)
-	love.graphics.rectangle("line", 125, 130, 70, 70)
-	love.graphics.rectangle("line", 215, 130, 70, 70)
+	drawrectangle("line", 35, 40, 70, 70)
+	drawrectangle("line", 125, 40, 70, 70)
+	drawrectangle("line", 215, 40, 70, 70)
+	drawrectangle("line", 35, 130, 70, 70)
+	drawrectangle("line", 125, 130, 70, 70)
+	drawrectangle("line", 215, 130, 70, 70)
 
 	--Text of app icons
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.setFont(smallfont)
 
-	love.graphics.print("Calendar", 35, 95)
-	love.graphics.printf("A B C D", 125, 95, 70, "justify")
+	
+	love.graphics.printf("A B C D", 125, 95, 70, "center")
+	love.graphics.printf("Calendar", 35, 95, 70, "center")
 	love.graphics.printf("Adress", 215, 95, 70, "center")
 	love.graphics.printf("Todo List", 35, 190, 70, "center")
 	love.graphics.printf("Scrib", 125, 190, 70, "center")
@@ -103,3 +108,14 @@ function drawtoBottomScreen()
 		love.graphics.setScreen("bottom")
 	end
 end
+
+function drawrectangle(l, x, y, w, h)
+		love.graphics.rectangle("fill", x, y, w, h)
+		if l == "line" then
+			r, g, b, a = love.graphics.getColor()
+			linewidth = love.graphics.getLineWidth()
+			love.graphics.setColor(love.graphics.getBackgroundColor())
+			love.graphics.rectangle("fill", x+linewidth, y+linewidth, w-(2*linewidth), h-(2*linewidth) )
+			love.graphics.setColor(r, g, b, a)
+		end
+	end
