@@ -90,7 +90,7 @@ end
 function drawtoTopScreen()
 	if currentos == "Windows" then
 		love.graphics.pop()
-	elseif currentos == "3DS" then
+	elseif currentos == "3ds" then
 		love.graphics.setScreen("top")
 	end
 end
@@ -99,7 +99,7 @@ function drawtoBottomScreen()
 	if currentos == "Windows" then
 		love.graphics.push()
 		love.graphics.translate((400 - 320) / 2, 240)
-	elseif currentos == "3DS" then
+	elseif currentos == "3ds" then
 		love.graphics.setScreen("bottom")
 	end
 end
