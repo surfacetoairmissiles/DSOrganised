@@ -61,7 +61,8 @@ function calendar:keypressed(key)
 		calendar.selectedday = calendar.selectedday-7
 	end
 
-	if key == 'lbutton' or key == 'o' then
+
+	if (key == 'lbutton' or key == 'o') and not (love.keyboard.isDown( "rbutton" ) or love.keyboard.isDown( "p" )) then
 		if currentdate.month == 1 then
 			currentdate.year = currentdate.year - 1
 			currentdate.month = 12
@@ -69,13 +70,18 @@ function calendar:keypressed(key)
 			currentdate.month = currentdate.month - 1
 		end
 	end
-	if key == 'rbutton' or key == 'p' then
+
+	if (key == 'rbutton' or key == 'p') then
 		if currentdate.month == 12 then
 			currentdate.year = currentdate.year + 1
 			currentdate.month = 1
 		else
 			currentdate.month = currentdate.month + 1
 		end
+	end
+
+	if (key == 'lbutton' or key == 'o') and (love.keyboard.isDown( "rbutton" ) or love.keyboard.isDown( "p" )) then
+		currentdate = os.date("*t")
 	end
 end
 
