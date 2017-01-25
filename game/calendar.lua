@@ -30,11 +30,11 @@ function calendar:draw()
 	calendar.drawhilight()
 	calendar.drawcalendarnumbers()
 
-	if calendar.selectedday > monthlength[currentdate.month] then
-		calendar.selectedday = monthlength[currentdate.month]
+	if currentdate.day > monthlength[currentdate.month] then
+		currentdate.day = monthlength[currentdate.month]
 		--changemonthcode goes here
-	elseif calendar.selectedday < 1 then
-		calendar.selectedday = 1
+	elseif currentdate.day < 1 then
+		currentdate.day = 1
 		--more month change code
 	end
 	drawwindowsoutline()
@@ -47,18 +47,18 @@ function calendar:keypressed(key)
 	end
 
 	if key == 'left' then
-		calendar.selectedday = calendar.selectedday-1
+		currentdate.day = currentdate.day-1
 	end
 
 	if key == 'right' then
-		calendar.selectedday = calendar.selectedday+1
+		currentdate.day = currentdate.day+1
 	end
 
 	if key == 'down' then
-		calendar.selectedday = calendar.selectedday+7
+		currentdate.day = currentdate.day+7
 	end
 	if key == 'up' then
-		calendar.selectedday = calendar.selectedday-7
+		currentdate.day = currentdate.day-7
 	end
 
 
@@ -206,48 +206,48 @@ end
 
 function calendar.drawhilight()
 	
-	love.graphics.print("Selected day: "..calendar.selectedday, 200, 200)
+	love.graphics.print("Selected day: "..currentdate.day, 200, 200)
 	love.graphics.print("first month:" ..calendar.firstdate.wday, 200, 190)
 	love.graphics.print("monthlength:" ..monthlength[currentdate.month], 200, 180)
 
 	love.graphics.setColor(0, 166, 81, 100)
 	local m = 1
 	for x = 1, (8-calendar.firstdate.wday) do
-		if calendar.selectedday == m and calendar.firstdate.wday ~= 1 then
+		if currentdate.day == m and calendar.firstdate.wday ~= 1 then
 			drawrectangle("fill", 1+x*35 + 35*(calendar.firstdate.wday-1), 65, 25, 17)
-		elseif calendar.selectedday == m and calendar.firstdate.wday == 1 then
+		elseif currentdate.day == m and calendar.firstdate.wday == 1 then
 			drawrectangle("fill", 1+x*35, 65, 25, 17)
 		end
 		m=m+1
 	end
 	for x = 1, 7 do
-		if calendar.selectedday == m then
+		if currentdate.day == m then
 			drawrectangle("fill", 1+x*35, 85, 25, 17)
 		end
 		m=m+1
 	end
 	for x = 1, 7 do
-		if calendar.selectedday == m then
+		if currentdate.day == m then
 			drawrectangle("fill", 1+x*35, 105, 25, 17)
 		end
 		m=m+1
 	end
 	for x = 1, 7 do
-		if calendar.selectedday == m then
+		if currentdate.day == m then
 			drawrectangle("fill", 1+x*35, 125, 25, 17)
 		end
 		m=m+1
 	end
 	if (calendar.firstdate.wday - 1) + monthlength[currentdate.month] >= 35 then
 		for x = 1, 7 do
-			if calendar.selectedday == m then
+			if currentdate.day == m then
 				drawrectangle("fill", 1+x*35, 145, 25, 17)
 			end
 			m=m+1
 		end
 
 		for x = 1, monthlength[currentdate.month] - (m-1) do
-			if calendar.selectedday == m then
+			if currentdate.day == m then
 				drawrectangle("fill", 1+x*35, 165, 25, 17)
 			end
 			m=m+1
@@ -255,7 +255,7 @@ function calendar.drawhilight()
 
 	else
 		for x = 1, monthlength[currentdate.month] - (m-1) do
-			if calendar.selectedday == m then
+			if currentdate.day == m then
 				drawrectangle("fill", 1+x*35, 145, 25, 17)
 			end
 			m=m+1
