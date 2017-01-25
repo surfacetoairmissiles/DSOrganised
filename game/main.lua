@@ -1,4 +1,6 @@
-require "draw"
+require "calendar"
+require "menu"
+Gamestate = require("hump.gamestate")
 
 user = "Sam"
 currentos = love.system.getOS()
@@ -9,9 +11,7 @@ bgc.b = 255
 bgc.a = 255
 icons = {}
 fonts = {}
-selectedicon = 1
-state = {}
-state.current = "menu"
+
 
 function love.load()
 	if currentos == "Windows" then
@@ -30,25 +30,25 @@ function love.load()
 	icons.scribble = love.graphics.newImage("/icons/scribble.png")
 	icons.todo = love.graphics.newImage("/icons/todo.png")
 
+	icons.l = love.graphics.newImage("/icons/l.png")
+	icons.r = love.graphics.newImage("/icons/r.png")
+	icons.start = love.graphics.newImage("/icons/start.png")
+	icons.a = love.graphics.newImage("/icons/a.png")
+	icons.b = love.graphics.newImage("/icons/b.png")
+
 	fonts.large = love.graphics.newFont(15)
 	fonts.small = love.graphics.newFont(9)
+
+	-- Initialise Gamestates
+    Gamestate.registerEvents()
+    --Set the gamestate to Menu
+    Gamestate.switch(menu)
 
 end
 
 
 function love.draw()
-	--Draw stuff on the top screen --
-	rendertopscreen()
 
-
-	--Draw stuff on the bottom screen
-	drawtoBottomScreen()
-	--Draw a window outline so that a windows user can see the outline of the window
-	drawwindowsoutline()
-	--Green boxes to indicate icon and text position *placeholder*
-	boxhilight()
-
-	rendericons()
 
 
 end
@@ -59,36 +59,9 @@ end
 
 function love.keypressed(key)
 
-	-- If the start button is pressed, we return to the Homebrew Launcher
-	if key == 'start' then
-		love.event.quit()
-	end
--- If the start button is pressed, we return to the Homebrew Launcher
-	if key == 'left' and selectedicon ~= 9 then
-		selectedicon = selectedicon-1
-	end
-
-	if key == 'right' and selectedicon ~= 9 then
-		selectedicon = selectedicon+1
-	end
-
-	if key == 'down' then
-		if selectedicon > 3 then
-			selectedicon = 9
-		else
-			selectedicon = selectedicon + 3
-		end
-	end
-	if key == 'up' then
-		if selectedicon == 9 then
-			selectedicon = 5
-		else
-			selectedicon = selectedicon - 3
-	end
-end
-
 
 end
+
 
 function drawtoTopScreen()
 	if currentos == "Windows" then
@@ -115,5 +88,13 @@ function drawrectangle(l, x, y, w, h)
 		love.graphics.setColor(bgc.r, bgc.g, bgc.b, bgc.a)
 		love.graphics.rectangle("fill", x+linewidth, y+linewidth, w-(2*linewidth), h-(2*linewidth) )
 		love.graphics.setColor(r, g, b, a)
+	end
+end
+
+
+function drawwindowsoutline()
+	if currentos == "Windows" then -- This sets an outline so i can see the bounds of the screen
+		love.graphics.setColor(0,0,0,255)
+		love.graphics.rectangle("line", 0, 0, 320, 240)
 	end
 end
