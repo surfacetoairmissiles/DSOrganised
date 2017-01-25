@@ -61,7 +61,22 @@ function calendar:keypressed(key)
 		calendar.selectedday = calendar.selectedday-7
 	end
 
-
+	if key == 'lbutton' or key == 'o' then
+		if currentdate.month == 1 then
+			currentdate.year = currentdate.year - 1
+			currentdate.month = 12
+		else
+			currentdate.month = currentdate.month - 1
+		end
+	end
+	if key == 'rbutton' or key == 'p' then
+		if currentdate.month == 12 then
+			currentdate.year = currentdate.year + 1
+			currentdate.month = 1
+		else
+			currentdate.month = currentdate.month + 1
+		end
+	end
 end
 
 function calendar.drawtopscreen()
@@ -164,10 +179,22 @@ function calendar.drawcalendarnumbers()
 		love.graphics.print(n, 7+x*35, 128)
 		n=n+1
 	end	
-	for x = 1, monthlength[currentdate.month] - (n-1) do
-		love.graphics.print(n, 7+x*35, 148)
-		n=n+1
-	end	
+	if (calendar.firstdate.wday - 1) + monthlength[currentdate.month] > 35 then
+		for x = 1, 7 do
+			love.graphics.print(n, 7+x*35, 148)
+			n=n+1
+		end
+		for x = 1, monthlength[currentdate.month] - (n-1) do
+			love.graphics.print(n, 7+x*35, 168)
+			n=n+1
+		end	
+	else 
+		for x = 1, monthlength[currentdate.month] - (n-1) do
+			love.graphics.print(n, 7+x*35, 148)
+			n=n+1
+		end	
+	end
+	-- if the startday+the monthlength is greater than 35
 	--]]
 end
 
@@ -175,6 +202,7 @@ function calendar.drawhilight()
 	
 	love.graphics.print("Selected day: "..calendar.selectedday, 200, 200)
 	love.graphics.print("first month:" ..calendar.firstdate.wday, 200, 190)
+	love.graphics.print("monthlength:" ..monthlength[currentdate.month], 200, 180)
 
 	love.graphics.setColor(0, 166, 81, 100)
 	local m = 1
@@ -204,10 +232,28 @@ function calendar.drawhilight()
 		end
 		m=m+1
 	end
-	for x = 1, monthlength[currentdate.month] - (m-1) do
-		if calendar.selectedday == m then
-			drawrectangle("fill", 1+x*35, 145, 25, 17)
+	if (calendar.firstdate.wday - 1) + monthlength[currentdate.month] >= 35 then
+		for x = 1, 7 do
+			if calendar.selectedday == m then
+				drawrectangle("fill", 1+x*35, 145, 25, 17)
+			end
+			m=m+1
 		end
-		m=m+1
+
+		for x = 1, monthlength[currentdate.month] - (m-1) do
+			if calendar.selectedday == m then
+				drawrectangle("fill", 1+x*35, 165, 25, 17)
+			end
+			m=m+1
+		end
+
+	else
+		for x = 1, monthlength[currentdate.month] - (m-1) do
+			if calendar.selectedday == m then
+				drawrectangle("fill", 1+x*35, 145, 25, 17)
+			end
+			m=m+1
+		end
 	end
+
 end
