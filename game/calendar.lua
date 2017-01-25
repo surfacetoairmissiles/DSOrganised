@@ -161,13 +161,14 @@ function calendar.drawhilight()
 	calendar.firsttime = os.time{year=currentdate.year, month=2	, day=1}
 	calendar.firstdate = os.date("*t", calendar.firsttime)
 
-	love.graphics.print(calendar.selectedday, 200, 200)
+	love.graphics.print("Selected day: "..calendar.selectedday, 200, 200)
+	love.graphics.print("first month:" ..calendar.firstdate.wday, 200, 190)
 
 	love.graphics.setColor(0, 166, 81, 100)
 	local m = 1
 	for x = 1, calendar.firstdate.wday do
 		if calendar.selectedday == m then
-			drawrectangle("fill", 281-x*35, 65, 25, 17)
+			drawrectangle("fill", 1+x*35 + 35*(calendar.firstdate.wday-1), 65, 25, 17)
 		end
 		m=m+1
 	end
