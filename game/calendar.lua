@@ -1,5 +1,10 @@
 calendar = {}
 
+monthlength = {[1] = 31, [2] = 28, [3] = 31,
+			   [4] = 30, [5] = 31, [6] = 30,
+			   [7] = 31, [8] = 31, [9] = 30,
+			   [10] = 31, [11] = 30, [12] = 31}
+
 function calendar:enter()
 
 end
@@ -13,6 +18,8 @@ function calendar:draw()
 
 	drawtoBottomScreen()
 	calendar.drawcontrols()
+	calendar.drawcalendarheadings()
+	calendar.drawcalendarnumbers()
 	drawwindowsoutline()
 
 end
@@ -44,28 +51,127 @@ function calendar.drawtopscreen()
 end
 
 function calendar.drawcontrols()
+	--draw the top row buttons
 	love.graphics.setFont(fonts.small)
 	love.graphics.setColor(0, 0, 0, 255)
 	love.graphics.print("Prev",17,2)
 	love.graphics.print("Home", 160, 2)
 	love.graphics.print("Next", 282, 2)
-	--drawrectangle("line", 159, 0, 2, 240) -- a guide
-
-	drawrectangle("line",20, 210, 135, 20)
-	drawrectangle("line",165, 210, 135, 20)
-	love.graphics.setFont(fonts.large)
-
-	love.graphics.print("Edit Reminder", 40, 211)
-	love.graphics.print("View Day", 195, 211)
-
-
 
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(icons.l,2,4)
 	love.graphics.draw(icons.r,306,4)
 	love.graphics.draw(icons.start,134,4)
 
+	--Draw the bottom row buttons
+	love.graphics.setColor(0, 0, 0, 255)
+	drawrectangle("line",20, 210, 135, 20)
+	drawrectangle("line",165, 210, 135, 20)
+
+	love.graphics.setFont(fonts.large)
+	love.graphics.print("Edit Reminder", 40, 211)
+	love.graphics.print("View Day", 195, 211)
+
+	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(icons.a, 28, 215)
 	love.graphics.draw(icons.b, 183, 215)
+
+end
+
+function calendar.drawcalendarheadings()
+	love.graphics.setFont(fonts.large)
+	love.graphics.setColor(0, 0, 0, 255)
+	love.graphics.print(os.date("%B - %Y"), 35, 20)
+
+	love.graphics.setFont(fonts.small)
+	love.graphics.print("Sun", 35, 45)
+	love.graphics.line(36, 55, 63, 55)
+	love.graphics.print("Mon", 70, 45)
+	love.graphics.line(71, 55, 98, 55)
+	love.graphics.print("Tue", 105, 45)
+	love.graphics.line(106, 55, 133, 55)
+	love.graphics.print("Wed", 140, 45)
+	love.graphics.line(141, 55, 168, 55)
+	love.graphics.print("Thu", 175, 45)
+	love.graphics.line(176, 55, 203, 55)
+	love.graphics.print("Fri", 210, 45)
+	love.graphics.line(211, 55, 238, 55)
+	love.graphics.print("Sat", 245, 45)
+	love.graphics.line(246, 55, 273, 55)
+
+end
+
+function calendar.drawcalendarnumbers()
+	love.graphics.setColor(0, 0, 0, 255)
+	love.graphics.setFont(fonts.small)
+
+	
+
+	--get the weekday of the first day of the month
+	temp = os.date("*t")
+	local firsttime = os.time{year=currentdate.year, month=currentdate.month, day=1}
+	local firstdate = os.date("*t", firsttime)
+	
+	--Green boxes
+	love.graphics.setColor(0, 166, 81, 100)
+	local n = 1
+	for x = firstdate.wday, 7 do
+		drawrectangle("fill", 1+x*35, 65, 25, 17)
+		n=n+1
+	end
+	for x = 1, 7 do
+		drawrectangle("fill", 1+x*35, 85, 25, 17)
+		n=n+1
+	end
+	for x = 1, 7 do
+		drawrectangle("fill", 1+x*35, 105, 25, 17)
+		n=n+1
+	end
+	for x = 1, 7 do
+		drawrectangle("fill", 1+x*35, 125, 25, 17)
+		n=n+1
+	end
+	for x = 1, monthlength[currentdate.month] - (n-1) do
+		drawrectangle("fill", 1+x*35, 145, 25, 17)
+	end
+
+	--draw the numbers
+	love.graphics.setColor(0, 0, 0, 255)
+	n = 1
+	for x = firstdate.wday, 7 do
+		love.graphics.print("0" .. n, 6+x*35, 68)
+		n=n+1
+	end
+	for x = firstdate.wday, 7 do
+		if n < 10 then
+			love.graphics.print("0" .. n, 6+x*35, 88)
+		else
+			love.graphics.print(n, 6+x*35, 88)
+		end
+		n=n+1
+	end
+	for x = firstdate.wday, 7 do
+		love.graphics.print(n, 6+x*35, 108)
+		n=n+1
+	end	
+	for x = firstdate.wday, 7 do
+		love.graphics.print(n, 6+x*35, 128)
+		n=n+1
+	end	
+	for x = firstdate.wday, monthlength[currentdate.month] - (n-1) do
+		love.graphics.print(n, 6+x*35, 148)
+		n=n+1
+	end	
+
+
+	--startpos = {}
+	--startpos.x=35
+	--startpos.y=65
+	--love.graphics.print("print", startpos.x, startpos.y)
+
+	--for monthlength[currentdate.month] do
+	--	love.graphics.setColor(0, 0, 0, 255)
+	--	if line == 1 then
+	--		love.graphics.print
 
 end

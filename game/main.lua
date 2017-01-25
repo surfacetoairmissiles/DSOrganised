@@ -4,6 +4,7 @@ Gamestate = require("hump.gamestate")
 
 user = "Sam"
 currentos = love.system.getOS()
+currentdate = {}
 bgc = {}
 bgc.r = 255
 bgc.g = 255
@@ -39,10 +40,12 @@ function love.load()
 	fonts.large = love.graphics.newFont(15)
 	fonts.small = love.graphics.newFont(9)
 
+	currentdate = os.date("*t")
+
 	-- Initialise Gamestates
     Gamestate.registerEvents()
     --Set the gamestate to Menu
-    Gamestate.switch(menu)
+    Gamestate.switch(calendar)
 
 end
 
