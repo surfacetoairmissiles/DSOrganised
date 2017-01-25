@@ -12,6 +12,8 @@ function calendar:enter()
 end
 
 function calendar:update(dt)
+	calendar.firsttime = os.time{year=currentdate.year, month=currentdate.month	, day=1}
+	calendar.firstdate = os.date("*t", calendar.firsttime)
 
 end
 
@@ -23,6 +25,13 @@ function calendar:draw()
 	calendar.drawcalendarheadings()
 	calendar.drawhilight()
 	calendar.drawcalendarnumbers()
+
+	if calendar.selectedday > monthlength[currentdate.month] then
+		calendar.selectedday = monthlength[currentdate.month]
+		--changemonthcode goes here
+	elseif calendar.selectedday < 1 then
+		calendar.selectedday = 1
+	end
 	drawwindowsoutline()
 
 end
@@ -128,7 +137,6 @@ function calendar.drawcalendarnumbers()
 	--get the weekday of the first day of the month
 	
 	--draw the numbers
-	love.graphics.setColor(0, 0, 0, 255)
 	n = 1
 	for x = 1, 8 - calendar.firstdate.wday do
 		love.graphics.print("0" .. ((9 - calendar.firstdate.wday) - x), 287-x*35, 68)
@@ -158,17 +166,17 @@ function calendar.drawcalendarnumbers()
 end
 
 function calendar.drawhilight()
-	calendar.firsttime = os.time{year=currentdate.year, month=2	, day=1}
-	calendar.firstdate = os.date("*t", calendar.firsttime)
-
+	
 	love.graphics.print("Selected day: "..calendar.selectedday, 200, 200)
 	love.graphics.print("first month:" ..calendar.firstdate.wday, 200, 190)
 
 	love.graphics.setColor(0, 166, 81, 100)
 	local m = 1
-	for x = 1, calendar.firstdate.wday do
-		if calendar.selectedday == m then
+	for x = 1, (8-calendar.firstdate.wday) do
+		if calendar.selectedday == m and calendar.firstdate.wday ~= 1 then
 			drawrectangle("fill", 1+x*35 + 35*(calendar.firstdate.wday-1), 65, 25, 17)
+		elseif calendar.selectedday == m and calendar.firstdate.wday == 1 then
+			drawrectangle("fill", 1+x*35, 65, 25, 17)
 		end
 		m=m+1
 	end
