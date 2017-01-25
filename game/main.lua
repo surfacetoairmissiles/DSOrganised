@@ -41,6 +41,7 @@ function love.load()
 	fonts.small = love.graphics.newFont(9)
 
 	currentdate = os.date("*t")
+	calendar.selectedday = currentdate.day
 
 	-- Initialise Gamestates
     Gamestate.registerEvents()

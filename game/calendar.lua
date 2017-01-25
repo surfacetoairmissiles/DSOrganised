@@ -5,6 +5,8 @@ monthlength = {[1] = 31, [2] = 28, [3] = 31,
 			   [7] = 31, [8] = 31, [9] = 30,
 			   [10] = 31, [11] = 30, [12] = 31}
 
+
+
 function calendar:enter()
 
 end
@@ -19,6 +21,7 @@ function calendar:draw()
 	drawtoBottomScreen()
 	calendar.drawcontrols()
 	calendar.drawcalendarheadings()
+	calendar.drawhilight()
 	calendar.drawcalendarnumbers()
 	drawwindowsoutline()
 
@@ -28,6 +31,23 @@ function calendar:keypressed(key)
 	if key == "start" or key == "return" then
 		Gamestate.switch(menu)
 	end
+
+	if key == 'left' then
+		calendar.selectedday = calendar.selectedday-1
+	end
+
+	if key == 'right' then
+		calendar.selectedday = calendar.selectedday+1
+	end
+
+	if key == 'down' then
+		calendar.selectedday = calendar.selectedday+7
+	end
+	if key == 'up' then
+		calendar.selectedday = calendar.selectedday-7
+	end
+
+
 end
 
 function calendar.drawtopscreen()
@@ -105,73 +125,74 @@ function calendar.drawcalendarnumbers()
 	love.graphics.setColor(0, 0, 0, 255)
 	love.graphics.setFont(fonts.small)
 
-	
-
 	--get the weekday of the first day of the month
-	temp = os.date("*t")
-	local firsttime = os.time{year=currentdate.year, month=currentdate.month, day=1}
-	local firstdate = os.date("*t", firsttime)
 	
-	--Green boxes
-	love.graphics.setColor(0, 166, 81, 100)
-	local n = 1
-	for x = firstdate.wday, 7 do
-		drawrectangle("fill", 1+x*35, 65, 25, 17)
-		n=n+1
-	end
-	for x = 1, 7 do
-		drawrectangle("fill", 1+x*35, 85, 25, 17)
-		n=n+1
-	end
-	for x = 1, 7 do
-		drawrectangle("fill", 1+x*35, 105, 25, 17)
-		n=n+1
-	end
-	for x = 1, 7 do
-		drawrectangle("fill", 1+x*35, 125, 25, 17)
-		n=n+1
-	end
-	for x = 1, monthlength[currentdate.month] - (n-1) do
-		drawrectangle("fill", 1+x*35, 145, 25, 17)
-	end
-
 	--draw the numbers
 	love.graphics.setColor(0, 0, 0, 255)
 	n = 1
-	for x = firstdate.wday, 7 do
-		love.graphics.print("0" .. n, 6+x*35, 68)
+	for x = 1, 8 - calendar.firstdate.wday do
+		love.graphics.print("0" .. ((9 - calendar.firstdate.wday) - x), 287-x*35, 68)
 		n=n+1
 	end
-	for x = firstdate.wday, 7 do
+	for x = 1, 7 do
 		if n < 10 then
-			love.graphics.print("0" .. n, 6+x*35, 88)
+			love.graphics.print("0" .. n, 7+x*35, 88)
 		else
-			love.graphics.print(n, 6+x*35, 88)
+			love.graphics.print(n, 7+x*35, 88)
 		end
 		n=n+1
 	end
-	for x = firstdate.wday, 7 do
-		love.graphics.print(n, 6+x*35, 108)
+	for x = 1, 7 do
+		love.graphics.print(n, 7+x*35, 108)
 		n=n+1
 	end	
-	for x = firstdate.wday, 7 do
-		love.graphics.print(n, 6+x*35, 128)
+	for x = 1, 7 do
+		love.graphics.print(n, 7+x*35, 128)
 		n=n+1
 	end	
-	for x = firstdate.wday, monthlength[currentdate.month] - (n-1) do
-		love.graphics.print(n, 6+x*35, 148)
+	for x = 1, monthlength[currentdate.month] - (n-1) do
+		love.graphics.print(n, 7+x*35, 148)
 		n=n+1
 	end	
+	--]]
+end
 
+function calendar.drawhilight()
+	calendar.firsttime = os.time{year=currentdate.year, month=2	, day=1}
+	calendar.firstdate = os.date("*t", calendar.firsttime)
 
-	--startpos = {}
-	--startpos.x=35
-	--startpos.y=65
-	--love.graphics.print("print", startpos.x, startpos.y)
+	love.graphics.print(calendar.selectedday, 200, 200)
 
-	--for monthlength[currentdate.month] do
-	--	love.graphics.setColor(0, 0, 0, 255)
-	--	if line == 1 then
-	--		love.graphics.print
-
+	love.graphics.setColor(0, 166, 81, 100)
+	local m = 1
+	for x = 1, calendar.firstdate.wday do
+		if calendar.selectedday == m then
+			drawrectangle("fill", 281-x*35, 65, 25, 17)
+		end
+		m=m+1
+	end
+	for x = 1, 7 do
+		if calendar.selectedday == m then
+			drawrectangle("fill", 1+x*35, 85, 25, 17)
+		end
+		m=m+1
+	end
+	for x = 1, 7 do
+		if calendar.selectedday == m then
+			drawrectangle("fill", 1+x*35, 105, 25, 17)
+		end
+		m=m+1
+	end
+	for x = 1, 7 do
+		if calendar.selectedday == m then
+			drawrectangle("fill", 1+x*35, 125, 25, 17)
+		end
+		m=m+1
+	end
+	for x = 1, monthlength[currentdate.month] - (m-1) do
+		if calendar.selectedday == m then
+			drawrectangle("fill", 1+x*35, 145, 25, 17)
+		end
+		m=m+1
+	end
 end

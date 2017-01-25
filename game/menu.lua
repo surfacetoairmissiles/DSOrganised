@@ -74,7 +74,7 @@ function menu.drawtopscreen()
 
 	--Draw the text--
 
-	--Top time and datre Text--
+	--Top time and date Text--
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.setFont(fonts.large)
 	love.graphics.print(os.date("%A, %B %d, %Y"), 5, 2)
