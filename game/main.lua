@@ -10,7 +10,8 @@ bgc.a = 255
 icons = {}
 fonts = {}
 selectedicon = 1
-
+state = {}
+state.current = "menu"
 
 function love.load()
 	if currentos == "Windows" then
@@ -83,8 +84,8 @@ function love.keypressed(key)
 			selectedicon = 5
 		else
 			selectedicon = selectedicon - 3
-		end
 	end
+end
 
 
 end
@@ -108,11 +109,11 @@ end
 
 function drawrectangle(l, x, y, w, h)
 		love.graphics.rectangle("fill", x, y, w, h)
-		if l == "line" then
-			r, g, b, a = love.graphics.getColor()
-			linewidth = love.graphics.getLineWidth()
-			love.graphics.setColor(bgc.r, bgc.g, bgc.b, bgc.a)
-			love.graphics.rectangle("fill", x+linewidth, y+linewidth, w-(2*linewidth), h-(2*linewidth) )
-			love.graphics.setColor(r, g, b, a)
-		end
+	if l == "line" then
+		r, g, b, a = love.graphics.getColor()
+		linewidth = love.graphics.getLineWidth()
+		love.graphics.setColor(bgc.r, bgc.g, bgc.b, bgc.a)
+		love.graphics.rectangle("fill", x+linewidth, y+linewidth, w-(2*linewidth), h-(2*linewidth) )
+		love.graphics.setColor(r, g, b, a)
 	end
+end

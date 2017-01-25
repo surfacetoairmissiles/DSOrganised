@@ -20,7 +20,7 @@ function rendericons()
 	love.graphics.printf("Scribble Pad", 125, 185, 70, "center")
 	love.graphics.printf("Browse", 215, 185, 70, "center")
 	love.graphics.setFont(fonts.large)
-	love.graphics.printf("Configuration", 70, 213,110, "center")
+	love.graphics.print("Configuration", 110, 213)
 end
 
 function rendertopscreen()
@@ -60,7 +60,7 @@ function rendertopscreen()
 end
 
 function drawwindowsoutline()
-if currentos == "Windows" then -- This sets an outline so i can see the bounds of the screen
+	if currentos == "Windows" then -- This sets an outline so i can see the bounds of the screen
 		love.graphics.setColor(0,0,0,255)
 		love.graphics.rectangle("line", 0, 0, 320, 240)
 	end
@@ -69,15 +69,15 @@ end
 function boxhilight()
 	love.graphics.setColor(45, 69, 34, 255) -- Get some green
 
- if selectedicon < 1 then
- 	selectedicon = 1 --Overflow control
- end
-if selectedicon > 6 and selectedicon ~=9 then 
-	selectedicon = 6
-	--next/prev page code here
-end
+	if selectedicon < 1 then
+ 		selectedicon = 1 --Overflow control
+	end
+	if selectedicon > 6 and selectedicon ~=9 then 
+		selectedicon = 6
+		--next/prev page code here
+	end
 
- 	--Thisassigns the selected icon a frame
+ 	--This assigns the selected icon a frame
 	if selectedicon == 1 then
 		drawrectangle("line", 35, 40, 70, 70)
 	elseif selectedicon == 2 then
@@ -93,4 +93,5 @@ end
 	elseif selectedicon == 9 then
 		drawrectangle("line", 70, 213, 180, 20)
 	end
+
 end
