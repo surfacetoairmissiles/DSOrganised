@@ -1,10 +1,14 @@
 calendar = {}
 
-monthlength = {[1] = 31, [2] = 28, [3] = 31,
+local monthlength = {[1] = 31, [2] = 28, [3] = 31,
 			   [4] = 30, [5] = 31, [6] = 30,
 			   [7] = 31, [8] = 31, [9] = 30,
 			   [10] = 31, [11] = 30, [12] = 31}
 
+local monthnames = {[1] = "January", [2] = "Febuary", [3] =  "March",
+				   [4] =  "April", [5] = "May", [6] = "June",
+				   [7] = "July", [8] = "August", [9] = "September",
+				   [10] = "October", [11] = "November", [12] = "December"}
 
 
 function calendar:enter()
@@ -31,6 +35,7 @@ function calendar:draw()
 		--changemonthcode goes here
 	elseif calendar.selectedday < 1 then
 		calendar.selectedday = 1
+		--more month change code
 	end
 	drawwindowsoutline()
 
@@ -110,7 +115,8 @@ end
 function calendar.drawcalendarheadings()
 	love.graphics.setFont(fonts.large)
 	love.graphics.setColor(0, 0, 0, 255)
-	love.graphics.print(os.date("%B - %Y"), 35, 20)
+	--love.graphics.print(os.date("%B - %Y"), 35, 20)
+	love.graphics.print(monthnames[currentdate.month] .. " - " .. currentdate.year, 35, 20)
 
 	love.graphics.setFont(fonts.small)
 	love.graphics.print("Sun", 35, 45)
